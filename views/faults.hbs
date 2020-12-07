@@ -1,0 +1,26 @@
+{{#extends 'base'}}
+    {{#block 'content'}}
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Title</td>
+                <td>Location</td>
+                <td>Block</td>
+                <td>Tags</td>
+                <td>Reported by</td>
+                <td>Date</td>
+            </tr>
+        </thead>
+        {{#each allFaults}}
+            <tr>
+                <td>{{this.title}}</td>
+                <td>{{this.location}}</td>
+                <td>{{this.block}}</td>
+                <td>{{this.tags}}</td>
+                <td>{{this.reporter_name}} ({{this.reporter_email}})</td>
+                <td>{{ date this.date "Do MMMM, YYYY"}}</td>
+            </tr>
+        {{/each}}
+    </table>
+    {{/block}}
+{{/extends}}
