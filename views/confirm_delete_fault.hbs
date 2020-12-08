@@ -1,0 +1,19 @@
+{{#extends 'base'}}
+
+{{#block 'content'}}
+<form method="POST">
+    <div class="alert alert-danger">
+        Are you sure you want to delete the fault report with the following
+        information?
+
+        <ul>
+            <li>Title: {{fault.title}}</li>
+            <li>Location: {{fault.location}}</li>
+            <li>Date: {{fault.date}}</li>
+        </ul>
+        <input type="submit" value="Confirm" class="btn btn-danger btn-sm"/>
+        <a href="/faults" class="btn btn-success btn-sm">Cancel</a>
+    </div>
+</form>
+{{/block}}
+{{/extends}}

@@ -6,10 +6,10 @@ const ObjectId = require('mongodb').ObjectId;
 let db = MongoUtil.getDB();
 
 // define a constant to hold the name of our faults collection
-const COLLECITON_NAME = "faults";
+const COLLECTION_NAME = "faults";
 
 router.get('/', async (req, res) => {
-    let results = await db.collection(COLLECITON_NAME).find().toArray();
+    let results = await db.collection(COLLECTION_NAME).find().toArray();
     res.render('faults', {
         'allFaults': results
     })
@@ -55,7 +55,7 @@ router.post('/add', async (req, res) => {
 
 router.get('/:id/update', async (req,res)=>{
     // 1. get the record that we want to update
-    let fault = await db.collection(COLLECITON_NAME).findOne({
+    let fault = await db.collection(COLLECTION_NAME).findOne({
         '_id': ObjectId(req.params.id)
     });
 
@@ -63,6 +63,69 @@ router.get('/:id/update', async (req,res)=>{
     res.render('fault_form', {
         'fault': fault
     })
+})
+
+router.post('/:id/update', async (req, res)=>{
+    // spread operator
+    let updatedFaultRecord = {...req.body};
+    /* using the spred operator is e.q.v. the code below
+    let updatedFaultRecord = {};
+    updatedFaultRecord.title = req.body.title;
+    updatedFaultRecord.location = req.body.location;
+    updatedFaultRecord.block = req.body.block;
+    updatedFaultRecord.tags = req.body.tags
+    updatedFaultRecord.reporter_email = req.body.reporter_email
+    updatedFaultRecord.reporter_name = req.body.reporter_name
+    */
+
+    updatedFaultRecord.tags = updatedFaultRecord.tags || [];
+    /*
+    .e.q.v:
+    if (!updatedFaultRecord.tags) {
+
+        updatedFaultRecord.tags = [];
+    }
+
+    */
+   updatedFaultRecord.tags = Array.isArray(updatedFaultRecord.tags) ?
+                            updatedFaultRecord.tags : [updatedFaultRecord.tags];
+
+    /* eqv.
+    if (Array.isArray(updatedFaultRecord.tags)) {
+        updatedFaultRecord.tags = updatedFaultRecord.tags;
+    } else {
+        updatedFaultRecord.tags = [updatedFaultRecord.tags];
+    }
+
+    */
+
+    updatedFaultRecord.block = updatedFaultRecord.block || "304";
+
+    await db.collection(COLLECTION_NAME).updateOne({
+        '_id':ObjectId(req.params.id)
+    }, {
+        '$set':updatedFaultRecord
+    });
+
+    res.redirect('/faults');
+
+})
+
+router.get('/:id/delete', async (req,res)=>{
+    let faultRecord = await db.collection(COLLECTION_NAME).findOne({
+        '_id':ObjectId(req.params.id)
+    })
+
+    res.render('confirm_delete_fault', {
+        'fault':faultRecord
+    })
+})
+
+router.post('/:id/delete', async(req, res)=>{
+    await db.collection(COLLECTION_NAME).deleteOne({
+        '_id':ObjectId(req.params.id)
+    })
+    res.redirect('/faults')
 })
 
 module.exports = router;

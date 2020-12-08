@@ -19,7 +19,10 @@
                 <td>{{this.tags}}</td>
                 <td>{{this.reporter_name}} ({{this.reporter_email}})</td>
                 <td>{{ date this.date "Do MMMM, YYYY"}}</td>
-                <td><a href="/faults/{{this._id}}/update" class="btn btn-primary">Edit</a>
+                <td>
+                    <a href="/faults/{{this._id}}/update" class="btn btn-primary">Edit</a>
+                    <a href="/faults/{{this._id}}/delete" class="btn btn-danger">Delete</a>
+                </td>
             </tr>
         {{/each}}
     </table>
