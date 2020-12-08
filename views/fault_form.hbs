@@ -1,0 +1,75 @@
+{{#extends 'base'}}
+
+    {{#block 'content'}}
+        <form method="POST">
+            <div>
+                <label class="form-label">Title</label>
+                <input type='text' name="title" class="form-control" value="{{fault.title}}"/>
+            </div>
+            <div>
+                <label class="form-label">Location</label>
+                <input type='text' name="location" class="form-control" value="{{fault.location}}"/>
+            </div>
+            <div>
+                <label class="form-label">Tags</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="tags" value="urgent"
+                        {{#inArray fault.tags 'urgent'}}checked{{/inArray}}
+                    >
+                    <label class="form-check-label">Urgent</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="tags" value="important"
+                        {{#inArray fault.tags 'important'}}checked{{/inArray}}
+                    
+                    >
+                    <label class="form-check-label">Important</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="tags" value="equipment-fault"
+                        {{#inArray fault.tags "equipment-fault"}}checked{{/inArray}}
+                    
+                    >
+                    <label class="form-check-label">Equipment fault</label>
+                </div>
+            </div>
+            <div>
+                <label class="form-label">Block</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="block"  value="304"
+                        {{#eq fault.block "304"}}checked{{/eq}}
+                        {{#eq fault.block ""}}checked{{/eq}}
+                    >
+                    <label class="form-check-label">304</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="block"  value="305"
+                        {{#eq fault.block "305"}}checked{{/eq}}
+                    >
+                    <label class="form-check-label">305</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="block"  value="306"
+                        {{#eq fault.block "306"}}checked{{/eq}}
+                    
+                    >
+                    <label class="form-check-label">306</label>
+                </div>
+            </div>
+            <div>
+                <label class="form-label">Reporter's Name</label>
+                <input type='text' name="reporter_name" class="form-control" value="{{fault.reporter_name}}"/>
+            </div>
+            <div>
+                <label class="form-label">Reporter's Email</label>
+                <input type='text' name="reporter_email" class="form-control" value="{{fault.reporter_email}}"/>
+            </div>
+            <div>
+                <label class="form-label">Date</label>
+                <input type="date" name="date" class="form-control" value="{{date fault.date "YYYY-MM-DD"}}"/>
+            </div>
+        <input type="submit"/>
+        </form>
+    {{/block}}
+
+{{/extends}}
