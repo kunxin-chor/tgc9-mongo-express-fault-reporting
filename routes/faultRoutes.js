@@ -50,6 +50,7 @@ router.post('/add', async (req, res) => {
         'date': new Date(date)
 
     };
+    req.flash('success_messages', "New fault record has been added!")
     await db.collection(COLLECTION_NAME).insertOne(newFaultRecord);
     res.redirect('/faults')
 })
@@ -126,6 +127,7 @@ router.post('/:id/delete', async(req, res)=>{
     await db.collection(COLLECTION_NAME).deleteOne({
         '_id':ObjectId(req.params.id)
     })
+    req.flash('error_messages', `Fault with id:${req.params.id} has been deleted`);
     res.redirect('/faults')
 })
 
