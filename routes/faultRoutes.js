@@ -3,6 +3,7 @@ const router = express.Router();
 const MongoUtil = require('../MongoUtil')
 const ObjectId = require('mongodb').ObjectId;
 
+
 let db = MongoUtil.getDB();
 
 // define a constant to hold the name of our faults collection
@@ -50,6 +51,7 @@ router.post('/add', async (req, res) => {
 
     };
     await db.collection(COLLECTION_NAME).insertOne(newFaultRecord);
+    req.flash('success_messages', 'New fault added!')
     res.redirect('/faults')
 })
 

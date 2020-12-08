@@ -4,6 +4,7 @@ const MongoUtil = require('./MongoUtil.js')
 const hbs = require('hbs')
 const wax = require('wax-on');
 
+
 // load in environment variables
 require('dotenv').config();
 
@@ -12,6 +13,7 @@ const app = express();
 app.set('view engine', 'hbs')
 app.use(express.static('public'))
 app.use(express.urlencoded({extended:false}))
+
 
 // setup template inheritance
 wax.on(hbs.handlebars);
@@ -22,6 +24,13 @@ wax.setLayoutPath('./views/layouts')
     handlebars: hbs.handlebars
   });
 
+// register the middleware
+app.use(function(req,res,next){
+    res.locals.success_messages = req.flash('success_messages');
+    res.locals.error_messages = req.flash('error_messages');
+    next();
+})
+
 
 async function main() {
     const MONGO_URL=process.env.MONGO_URL;
@@ -30,11 +39,7 @@ async function main() {
 
     const faultRoutes = require('./routes/faultRoutes');
 
-    app.use('/faults', faultRoutes);
-
-
-
-    
+    app.use('/faults', faultRoutes);   
 }   
 
 main();
