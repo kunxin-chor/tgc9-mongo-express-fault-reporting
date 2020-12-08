@@ -24,13 +24,6 @@ wax.setLayoutPath('./views/layouts')
     handlebars: hbs.handlebars
   });
 
-// register the middleware
-app.use(function(req,res,next){
-    res.locals.success_messages = req.flash('success_messages');
-    res.locals.error_messages = req.flash('error_messages');
-    next();
-})
-
 
 async function main() {
     const MONGO_URL=process.env.MONGO_URL;

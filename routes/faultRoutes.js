@@ -51,7 +51,6 @@ router.post('/add', async (req, res) => {
 
     };
     await db.collection(COLLECTION_NAME).insertOne(newFaultRecord);
-    req.flash('success_messages', 'New fault added!')
     res.redirect('/faults')
 })
 
